@@ -17,6 +17,14 @@
                     {{ __('You are logged in!') }}
                 </div>
             </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">Food</div>
+
+                <div class="card-body">
+                    <a href="{{ route('food.index') }}"type="button" class="btn btn-dark">Go to Index</a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
