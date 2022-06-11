@@ -8,7 +8,7 @@
                 <div class="card-header">Food Create New</div>
 
                 <div class="card-body">
-                    <form  method="POST" action="{{ route('food.store') }}">
+                    <form  method="POST" action="{{ route('food.store') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-3">
                           <label for="nameInput" class="form-label">Name</label>
@@ -19,9 +19,9 @@
                           <input type="text" class="form-control" id="descriptionInput" name="description">
                         </div>
                         <div class="mb-3">
-                          <label for="imageInput" class="form-label">Image</label>
-                          <input type="text" class="form-control" id="imageInput" name="image">
-                        </div>
+                            <label for="imageInput" class="form-label">Image</label>
+                            <input class="form-control" type="file" id="image" name="image">
+                          </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                       </form>
                 </div>
