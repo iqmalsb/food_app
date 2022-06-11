@@ -37,7 +37,7 @@ class FoodController extends Controller
         return to_route('food.index');
     }
     
-    public function show(Request $request, Food $food) {
+    public function show(Food $food) {
         return view('food.show', compact('food'));
     }
     
@@ -57,6 +57,12 @@ class FoodController extends Controller
             $food->image = $filename;
             $food->save();
         }
+        return to_route('food.index');
+    }
+
+    public function delete (Food $food) {
+        $food->delete();
+
         return to_route('food.index');
     }
 }
