@@ -25,3 +25,5 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/foods', [App\Http\Controllers\FoodController::class, 'index'])->name('food.index');
 Route::get('/foods/create', [App\Http\Controllers\FoodController::class, 'create'])->name('food.create');
 Route::post('/foods/store', [App\Http\Controllers\FoodController::class, 'store'])->name('food.store');
+Route::get('/foods/{food}', [App\Http\Controllers\FoodController::class, 'show'])->name('food.show');
+
