@@ -20,7 +20,7 @@ class FoodController extends Controller
     }
 
     public function store(Request $request, Food $food) {
-        if($request->hasFile('image')){
+        if($request->hasFile('image')) {
             //Rename File
             $filename = $request->name.'-'.date('Y-m-d').'.'.$request->image->getClientOriginalExtension();
             dd($filename);
@@ -28,7 +28,7 @@ class FoodController extends Controller
             Storage::disk('public')->put($filename,File::get($request->image));
             $food->image = $filename;
         }
-        Food::create([
+        $food->create([
             'name' => $request->name,
             'description' => $request->description,
             // 'image' => $request->image,
@@ -36,8 +36,27 @@ class FoodController extends Controller
         ]);
         return to_route('food.index');
     }
-
+    
     public function show(Request $request, Food $food) {
         return view('food.show', compact('food'));
+    }
+    
+    public function update(Request $request, Food $food) {
+        $food->update([
+            'name' => $request->name,
+            'description' => $request->description,
+        ]);
+        
+        if($request->hasFile('image')) {
+            //Rename File
+            $filename = $request->name.'-'.date('Y-m-d').'.'.$request->image->getClientOriginalExtension();
+            //Set Storage
+            Storage::disk('public')->put($filename,File::get($request->image));
+            $food->image = $filename;
+
+            $food->image = $filename;
+            $food->save();
+        }
+        return to_route('food.index');
     }
 }
