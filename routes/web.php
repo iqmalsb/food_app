@@ -27,4 +27,6 @@ Route::get('/foods/create', [App\Http\Controllers\FoodController::class, 'create
 Route::post('/foods/store', [App\Http\Controllers\FoodController::class, 'store'])->name('food.store');
 Route::get('/foods/{food}', [App\Http\Controllers\FoodController::class, 'show'])->name('food.show');
 Route::post('/foods/{food}/update', [App\Http\Controllers\FoodController::class, 'update'])->name('food.update');
+Route::get('/foods/{food}/delete', [App\Http\Controllers\FoodController::class, 'delete'])->name('food.delete');
+
 
