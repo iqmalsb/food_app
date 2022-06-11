@@ -10,8 +10,15 @@ use App\Http\Requests\FoodRequest;
 
 class FoodController extends Controller
 {
-    public function index() {
-        $foods = Food::paginate(3);
+    public function __construct(){
+        $this->middleware('auth');
+    }
+    public function index(Request $request) {        
+        if($request->keyword) {
+            $foods = Food::query()->where('name','LIKE','%'.$request->keyword.'%')->paginate(3);
+        } else {
+            $foods = Food::paginate(3);
+        }
 
         return view ('food.index', compact('foods'));
     }
