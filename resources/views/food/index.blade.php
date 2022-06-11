@@ -30,8 +30,8 @@
                                     <td>{{$food->description}}</td>
                                     <td><img src="{{ asset('/storage/'.$food->image) }}" class="img-thumbnail"></td>
                                     <td>
-                                        <a href="{{ route('food.show', $food) }}"type="button" class="btn btn-info">Details</a>
-                                        <a href=""type="button" class="btn btn-danger">Delete</a>
+                                        <a href="{{ route('food.show', $food) }}" type="button" class="btn btn-info">Details</a>
+                                        <a href="{{ route('food.delete', $food) }}" type="button" class="btn btn-danger">Delete</a>
                                     </td>
                                 </tr>
                             @endforeach
