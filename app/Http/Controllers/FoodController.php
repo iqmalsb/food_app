@@ -25,4 +25,8 @@ class FoodController extends Controller
         ]);
         return to_route('food.index');
     }
+
+    public function show(Request $request, Food $food) {
+        return view('food.show', compact('food'));
+    }
 }
