@@ -12,8 +12,15 @@
                         {{ session()->get('alert-message') }}
                     </div>
                 @endif
+                
                 <div class="card-body">
-                    <a href="{{ route('food.create') }}"type="button" class="btn btn-dark">Add New Food</a>
+                    <form action="" method="">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="searchInput" name="keyword" value="{{ request()->get('keyword') }}">
+                            <button type="submit" class="btn btn-primary">Search</button>
+                        </div>
+                    </form>
+                    <a href="{{ route('food.create') }}"type="button" class="btn btn-dark mt-2">Add New Food</a>
                 </div>
 
                 <div class="card-body">
