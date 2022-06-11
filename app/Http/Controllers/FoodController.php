@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Food;
 use Illuminate\Http\Request;
+use Storage;
+use File;
 
 class FoodController extends Controller
 {
@@ -17,11 +19,20 @@ class FoodController extends Controller
         return view ('food.create');
     }
 
-    public function store(Request $request) {
+    public function store(Request $request, Food $food) {
+        if($request->hasFile('image')){
+            //Rename File
+            $filename = $request->name.'-'.date('Y-m-d').'.'.$request->image->getClientOriginalExtension();
+            dd($filename);
+            //Set Storage
+            Storage::disk('public')->put($filename,File::get($request->image));
+            $food->image = $filename;
+        }
         Food::create([
             'name' => $request->name,
             'description' => $request->description,
-            'image' => $request->image,
+            // 'image' => $request->image,
+            'image' => $filename,
         ]);
         return to_route('food.index');
     }
