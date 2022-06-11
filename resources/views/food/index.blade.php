@@ -9,8 +9,8 @@
 
                 <div class="card-body">
                     <a href="{{ route('food.create') }}"type="button" class="btn btn-dark">Add New Food</a>
-                    
                 </div>
+
                 <div class="card-body">
                     <table class="table">
                         <thead>
@@ -19,6 +19,7 @@
                             <th scope="col">Name</th>
                             <th scope="col">Description</th>
                             <th scope="col">Image</th>
+                            <th scope="col">Actions</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -28,6 +29,10 @@
                                     <td>{{$food->name}}</td>
                                     <td>{{$food->description}}</td>
                                     <td>{{$food->image}}</td>
+                                    <td>
+                                        <a href="{{ route('food.show', $food) }}"type="button" class="btn btn-info">Details</a>
+                                        <a href=""type="button" class="btn btn-danger">Delete</a>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
