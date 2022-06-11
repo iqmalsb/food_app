@@ -7,6 +7,11 @@
             <div class="card">
                 <div class="card-header">Food Index</div>
 
+                @if (session()->has('alert-message'))
+                    <div class="alert {{ session()->get('alert-type') }}">
+                        {{ session()->get('alert-message') }}
+                    </div>
+                @endif
                 <div class="card-body">
                     <a href="{{ route('food.create') }}"type="button" class="btn btn-dark">Add New Food</a>
                 </div>
@@ -37,6 +42,7 @@
                             @endforeach
                         </tbody>
                       </table>
+                      {{ $foods->links() }}
                 </div>
             </div>
         </div>
