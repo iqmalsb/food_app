@@ -21,4 +21,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/foods/index', [App\Http\Controllers\FoodController::class, 'index'])->name('food.index');
+// Food Routes
+Route::get('/foods', [App\Http\Controllers\FoodController::class, 'index'])->name('food.index');
+Route::get('/foods/create', [App\Http\Controllers\FoodController::class, 'create'])->name('food.create');
+Route::post('/foods/store', [App\Http\Controllers\FoodController::class, 'store'])->name('food.store');
