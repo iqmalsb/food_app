@@ -19,6 +19,16 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('image')->nullable();
+            $table->string('role')->default('staff');
+            $table->string('contact_no')->default('');
+            $table->string('position')->default('');
+            $table->string('address_line1')->default('');
+            $table->string('address_line2')->default('');
+            $table->string('address_line3')->default('');
+            $table->string('address_city')->default('');
+            $table->string('address_state')->default('');
+            $table->string('address_postcode')->default('');
             $table->rememberToken();
             $table->timestamps();
         });
