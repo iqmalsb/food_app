@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Food extends Model
 {
     use HasFactory;
-    protected $table = 'foods';
+    protected $table = 'food';
 
     protected $fillable = [
         'name',
