@@ -15,7 +15,7 @@ class FoodSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('foods')->insert([
+        DB::table('food')->insert([
             [
                 'id' => 1,
                 'name' => 'Nasi Goreng',
