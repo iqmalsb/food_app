@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Database\Seeders\FoodSeeder;
+use Database\Seeders\TableSeeder;
 use Database\Seeders\CategorySeeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
@@ -25,5 +26,6 @@ class DatabaseSeeder extends Seeder
 
         $this->call(FoodSeeder::class);
         $this->call(CategorySeeder::class);
+        $this->call(TableSeeder::class);
     }
 }
