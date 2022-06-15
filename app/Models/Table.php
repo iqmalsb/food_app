@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Table extends Model
 {
     use HasFactory;
-    protected $table = 'reservations';
+    protected $table = 'tables';
 
     protected $fillable = [
         'table_no',
