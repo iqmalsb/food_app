@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\Food;
+use App\Models\Category;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-class FoodSeeder extends Seeder
+class CategorySeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,6 +15,6 @@ class FoodSeeder extends Seeder
      */
     public function run()
     {
-        Food::factory(20)->create();
+        Category::factory(5)->create();
     }
 }
