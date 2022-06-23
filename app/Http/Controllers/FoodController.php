@@ -25,7 +25,7 @@ class FoodController extends Controller
         return view ('food.index', compact('foods'));
     }
     
-    public function create(Request $request, Category $categories) { 
+    public function create(Category $categories) { 
         $categories = Category::all();
         
         return view ('food.create', compact('categories'));
