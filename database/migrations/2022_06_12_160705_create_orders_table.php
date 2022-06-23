@@ -20,7 +20,6 @@ return new class extends Migration
             $table->boolean('is_paid')->default(false);
             $table->boolean('is_dine_in')->default(true);
             $table->boolean('has_cutlery')->default(false);
-            $table->string('additional_request');
             $table->foreignIdFor(User::class)->constrained();
             $table->timestamps();
         });

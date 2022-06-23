@@ -18,6 +18,7 @@ return new class extends Migration
         Schema::create('food_order', function (Blueprint $table) {
             $table->foreignIdFor(Food::class)->constrained();
             $table->foreignIdFor(Order::class)->constrained();
+            $table->string('additional_request');
         });
     }
 
