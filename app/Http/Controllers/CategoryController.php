@@ -69,7 +69,7 @@ class CategoryController extends Controller
     }
 
     public function delete (Category $category) {
-        Category::delete();
+        $category->delete();
 
         return to_route('categories.index')->with([
             'alert-type' => 'alert-danger',
