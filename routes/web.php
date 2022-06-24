@@ -36,3 +36,11 @@ Route::post('/categories/store', [App\Http\Controllers\CategoryController::class
 Route::get('/categories/{category}', [App\Http\Controllers\CategoryController::class, 'show'])->name('categories.show');
 Route::post('/categories/{category}/update', [App\Http\Controllers\CategoryController::class, 'update'])->name('categories.update');
 Route::get('/categories/{category}/delete', [App\Http\Controllers\CategoryController::class, 'delete'])->name('categories.delete');
+
+// Table Routes
+Route::get('/tables', [App\Http\Controllers\TableController::class, 'index'])->name('tables.index');
+Route::get('/tables/create', [App\Http\Controllers\TableController::class, 'create'])->name('tables.create');
+Route::post('/tables/store', [App\Http\Controllers\TableController::class, 'store'])->name('tables.store');
+Route::get('/tables/{table}', [App\Http\Controllers\TableController::class, 'show'])->name('tables.show');
+Route::post('/tables/{table}/update', [App\Http\Controllers\TableController::class, 'update'])->name('tables.update');
+Route::get('/tables/{table}/delete', [App\Http\Controllers\TableController::class, 'delete'])->name('tables.delete');
