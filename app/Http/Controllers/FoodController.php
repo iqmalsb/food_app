@@ -32,15 +32,15 @@ class FoodController extends Controller
     }
 
     public function store(FoodRequest $request, Food $food) {
-        if($request->hasFile('image')) {
-            //Rename File
-            $filename = $request->name.'-'.date('Y-m-d').'.'.$request->image->getClientOriginalExtension();
-            //Set Storage
-            Storage::disk('public')->put($filename,File::get($request->image));
-            $food->image = $filename;
-        }
+        // Validation Form Request
+        $validated = $request->validated();
+        //Rename File
+        $path = $request->name.'-'.date('Y-m-d').'.'.$request->image->getClientOriginalExtension();
+        //Set Storage
+        Storage::disk('public')->put($path, File::get($request->image));
+        $validated['image'] = basename($path);
 
-        Food::create($request->validated());
+        Food::create($validated);
 
         return to_route('food.index')->with([
             'alert-type' => 'alert-success',
@@ -69,10 +69,9 @@ class FoodController extends Controller
             //Set Storage
             Storage::disk('public')->put($filename,File::get($request->image));
             $food->image = $filename;
-
-            $food->image = $filename;
-            $food->save();
         }
+            $food->save();
+
         return to_route('food.index')->with([
             'alert-type' => 'alert-success',
             'alert-message' => 'Food updated successfully',

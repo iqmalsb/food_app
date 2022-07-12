@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth');
+    }
+
     public function index(Request $request) {
         if($request->keyword) {
             $categories = Category::query()->where('name','LIKE','%'.$request->keyword.'%')->paginate(3);
@@ -25,15 +29,15 @@ class CategoryController extends Controller
     }
 
     public function store (CategoryRequest $request, Category $category) {
-        if($request->hasFile('image')) {
-            //Rename File
-            $filename = $request->name.'-'.date('Y-m-d').'.'.$request->image->getClientOriginalExtension();
-            //Set Storage
-            Storage::disk('public')->put($filename,File::get($request->image));
-            $category->image = $filename;
-        }
-
-        Category::create($request->validated());
+        //Validation Form Request
+        $validated = $request->validated();
+        //Rename File
+        $path = $request->name.'-'.time().'.'.$request->image->getClientOriginalExtension();
+        //Set Storage
+        Storage::disk('public')->put($path, File::get($request->image));
+        $validated['image'] = basename($path);
+        
+        Category::create($validated);
 
         return to_route('categories.index')->with([
             'alert-type' => 'alert-success',
@@ -57,10 +61,8 @@ class CategoryController extends Controller
             //Set Storage
             Storage::disk('public')->put($filename,File::get($request->image));
             $category->image = $filename;
-
-            $category->image = $filename;
-            $category->save();
         }
+            $category->save();
         
         return to_route('categories.index')->with([
             'alert-type' => 'alert-success',
