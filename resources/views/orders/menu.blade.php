@@ -25,14 +25,14 @@
                 <div class="card-body">
                     <table class="table">
                         <thead>
-                          <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Food ID</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Actions</th>
-                          </tr>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Food ID</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Actions</th>
+                            </tr>
                         </thead>
                         <tbody id="cartList">                                
                         </tbody>
@@ -42,7 +42,10 @@
                             <button class="btn btn-danger" id="clearAllButton">Clear all</button>
                         </div>
                         <div class="mx-2">
-                            <button class="btn btn-success" id="confirmOrderButton">Confirm Order</button>
+                            {{-- <form action="{{ route('orders.confirm') }}" method="POST"> --}}
+                                @csrf
+                                <button class="btn btn-success" id="confirmOrderButton">Confirm Order</button>
+                            {{-- </form>         --}}
                         </div>
                     </div>
                 </div>
@@ -71,42 +74,57 @@
                 </div>
 
                 <!-- Modal -->
-                <div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+                {{-- 
+                    Input for Cart Items:
+                    "food_id": food_id,
+                    "name": food_name,
+                    "description": description,
+                    "price": price,
+                    "quantity": quantity,
+                    "additional_request": additional_request
+                    --}}
+                <div class="modal fade" id="orderModal" tabindex="-1">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLabel">Food Name</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <div class="modal-body">
-                                <p class="modal-item-id" id="food_id">ID</p>
-                                <p class="modal-item-name" id="food_name">Food Name</p>
-                                <p class="modal-item-description" id="food_description">Description: </p>
-                                <p class="modal-item-price" id="food_price">Price: </p>
-                                <label for="inputAdditionalRequest" class="form-label">Additional Request:</label>
-                                <input type="text" class="form-control" id="inputAdditionalRequest" name="additional_request"></input>
-                                <label for="input_quantity" class="form-label">Quantity:</label>
-                                <div class="d-flex justify-content-center">
-                                    <div class="mx-2">
-                                        <button class="btn btn-secondary" id="decQuantityBtn">-</button>
-                                    </div>
-                                    <div class="mx-2">
-                                        <input type="text" class="form-control" id="input_quantity" name="quantity" size="1" readonly></input>
-                                    </div>
-                                    <div class="mx-2">
-                                        <button class="btn btn-secondary" id="incQuantityBtn">+</button>
+                            <form action="{{ route('orders.insertItemToCart') }}" method="POST">
+                                @csrf
+                                <div class="modal-body">
+                                    <p class="modal-item-id" id="food_id">Food ID</p>
+                                    <input type="text" class="form-control" id="cart_id" name="cart_id" readonly></input>
+                                    <input type="text" class="form-control" id="input_food_id" name="food_id" readonly></input>
+                                    <p class="modal-item-name" id="food_name">Food Name</p>
+                                    <p class="modal-item-description" id="food_description">Description: </p>
+                                    <p class="modal-item-price" id="food_price">Price: </p>
+                                    <label for="inputAdditionalRequest" class="form-label">Additional Request:</label>
+                                    <input type="text" class="form-control" id="inputAdditionalRequest" name="additional_request"></input>
+                                    <label for="input_quantity" class="form-label">Quantity:</label>
+                                    <div class="d-flex justify-content-center">
+                                        <div class="mx-2">
+                                            <button class="btn btn-secondary" id="decQuantityBtn">-</button>
+                                        </div>
+                                        <div class="mx-2">
+                                            <input type="text" class="form-control" id="input_quantity" name="quantity" size="1" readonly></input>
+                                        </div>
+                                        <div class="mx-2">
+                                            <button class="btn btn-secondary" id="incQuantityBtn">+</button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeModal">Close</button>
-                                <button type="button" class="btn btn-primary" id="addFood">Add Food</button>
-                            </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeModal">Close</button>
+                                    <button type="submit" class="btn btn-primary" id="addFood">Add Food</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
                 {{-- Modal Details --}}
-                <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                {{-- <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -140,13 +158,14 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>
 </div>
 
-<script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+{{-- <script>
     let data = sessionStorage.getItem("cart");
     let cartData = data ? JSON.parse(data) : []
     let quantity = 1
@@ -274,14 +293,16 @@
     //
     // Update the modal's content.
     const modalTitle = orderModal.querySelector('.modal-title')
-    const modalBodyID = orderModal.querySelector('.modal-item-id')
+    const modal_food_id = document.getElementById('food_id')
+    const modal_input_food_id = document.getElementById('input_food_id')
     const modalBodyName = orderModal.querySelector('.modal-item-name')
     const modalBodyDescription = document.getElementById('food_description')
     const modalBodyPrice = orderModal.querySelector('.modal-item-price')
     const modalBodyQuantity = document.getElementById('input_quantity')
 
     modalTitle.textContent = `Make new order of ${name}`
-    modalBodyID.textContent = `${food_id}`
+    modal_food_id.textContent = `${food_id}`
+    modal_input_food_id.value = `${food_id}`
     modalBodyName.textContent = `${name}`
     modalBodyDescription.textContent = `Description: ${description}`
     modalBodyPrice.textContent = `Price: RM${price}`
@@ -381,21 +402,19 @@
         const additional_request =  document.getElementById('inputAdditionalRequest').value
         
         const cartItem = {
-            food_id: food_id,
-            name: food_name,
-            description: description,
-            price: price,
-            quantity: quantity,
-            additional_request: additional_request
+            "food_id": food_id,
+            "name": food_name,
+            "description": description,
+            "price": price,
+            "quantity": quantity,
+            "additional_request": additional_request
         }
 
         console.log("sebelum push")
         cartData.push(cartItem)
         console.log("selepas push")
         const cart = JSON.stringify(cartData)
-        sessionStorage.setItem("food_id", food_id)
         sessionStorage.setItem("additional_request", additional_request)
-        sessionStorage.setItem("cart", cart)
         
         alert('Nice, you triggered this alert message!', 'success')
         console.log("cart data is")
@@ -416,7 +435,7 @@
     
     // Reset Additional Request Value to empty string
     document.getElementById("closeModal").addEventListener("click", resetCart)
-    document.getElementById("closeModal").addEventListener("click", resetCart)
+    // document.getElementById("confirmOrderButton").addEventListener("click", confirmOrder)
     
     document.getElementById("clearAllButton").addEventListener("click", emptyCartList)
     
@@ -437,14 +456,13 @@
         const quantity = document.getElementById('details_quantity').value
         const additional_request =  document.getElementById('details_inputAdditionalRequest').value
         const i = document.getElementById('details_item_id').textContent
-        // console.log("Details item id = " + i)
         cartData[i] = {
-            food_id: food_id,
-            name: food_name,
-            description: description,
-            price: price,
-            quantity: quantity,
-            additional_request: additional_request
+            "food_id": food_id,
+            "name": food_name,
+            "description": description,
+            "price": price,
+            "quantity": quantity,
+            "additional_request": additional_request
         }
         const cart = JSON.stringify(cartData)
         sessionStorage.setItem("cart", cart)
@@ -456,5 +474,61 @@
         updateCartList()
     }
 
-</script>
+    // function confirmOrder() {
+    //     alert('Your order has been confirmed')
+    //     const sessionStorageData = sessionStorage.getItem('cart');
+    //     // $.ajax({
+    //     //     headers: {
+    //     //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    //     //     },
+    //     //     method: "POST",
+    //     //     url: "{{ route('orders.confirm') }}",
+    //     //     dataType: "stjsonring",
+    //     //     data:{
+    //     //         sessionStorageData: sessionStorageData,
+    //     //         '_token' : '{{ csrf_token() }}'
+    //     //     },
+    //     //     success: function(data) {
+    //     //         alert(data);
+    //     //         console.log("Data is = " + data)
+    //     //     }
+    //     // });
+
+
+    // }
+    // let sessionStorageData = sessionStorage.getItem('cart');
+    
+    // $.ajaxSetup({
+    //     headers: {
+    //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    //     }
+    // });
+    
+    // $(".btn-submit").click(function(e){
+    //     e.preventDefault();
+    //     let submitData = JSON.parse(sessionStorageData)
+    //     console.log("Value of submitData = ");
+
+    //     console.log(sessionStorageData);
+    //     console.log(submitData);
+    //     console.log(submitData[0]);
+    //     console.log(submitData[1]);
+    //     console.log(submitData[2]);
+
+    //     $.ajax({
+    //         type:'POST',
+    //         url:"{{ route('orders.confirm') }}",
+    //         data:{submitData},
+    //         success:function(data){
+    //             if($.isEmptyObject(data.error)){
+    //                 alert(data.success);
+    //                 location.reload();
+    //             }else{
+    //                 printErrorMsg(data.error);
+    //             }
+    //         }
+    //     });
+    // });
+
+</script> --}}
 @endsection

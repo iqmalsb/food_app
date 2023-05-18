@@ -17,6 +17,7 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->string('total_price');
+            $table->string('session');
             $table->boolean('is_paid')->default(false);
             $table->boolean('is_dine_in')->default(true);
             $table->boolean('has_cutlery')->default(false);

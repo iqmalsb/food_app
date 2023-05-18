@@ -18,10 +18,7 @@ class Order extends Model
         'is_paid',
         'is_dine_in',
         'has_cutlery',
-        'additional_request',
-        'orders_tables_id',
-        'foods_orders_id',
-        'users_id',
+        'user_id',
     ];
     
     public function user() {
